@@ -1,6 +1,6 @@
 ---
 ip: "192.168.10.10"
-memory: 2048
+memory: 6144
 cpus: 1
 provider: virtualbox
 
@@ -10,15 +10,39 @@ keys:
     - ~/.ssh/id_rsa
 
 folders:
-    - map: ~/code
-      to: /home/vagrant/code
+    - map: E:\projects
+      to: /home/vagrant/projects
+    - map: E:\data
+      to: /data
 
 sites:
-    - map: homestead.test
-      to: /home/vagrant/code/public
+    - map: shiva.loc
+      to: /home/vagrant/projects/shiva/web
+      php: "5.6"
+      type: "symfony2"
+
+    - map: shiva-prod.loc
+      to: /home/vagrant/projects/shivaprod/web
+      php: "5.6"
+      type: "symfony2"
+
+    - map: www.eurorepar.loc
+      to: /home/vagrant/projects/eurorepar/web
+      type: "symfony2"
+
+    - map: www.eurorepar-china.loc
+      to: /home/vagrant/projects/eurorepar_china/web
+      type: "symfony2"
+
+    - map: phpmyadmin.loc
+      to: /home/vagrant/projects/phpmyadmin
 
 databases:
     - homestead
+    - shiva
+    - shiva_prod
+    - eurorepar
+    - eurorepar_china
 
 # ports:
 #     - send: 50000
