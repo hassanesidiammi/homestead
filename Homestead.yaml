@@ -1,0 +1,70 @@
+---
+ip: "192.168.10.10"
+memory: 6144
+cpus: 1
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: E:\projects
+      to: /home/vagrant/projects
+    - map: E:\data
+      to: /data
+
+sites:
+    - map: shiva.loc
+      to: /home/vagrant/projects/shiva/web
+      php: "5.6"
+      type: "symfony2"
+
+    - map: shiva-prod.loc
+      to: /home/vagrant/projects/shivaprod/web
+      php: "5.6"
+      type: "symfony2"
+
+    - map: www.eurorepar.loc
+      to: /home/vagrant/projects/eurorepar/web
+      type: "symfony2"
+      php: "7.0"
+
+    - map: www.eurorepar-china.loc
+      to: /home/vagrant/projects/eurorepar_china/web
+      type: "symfony2"
+      php: "7.0"
+
+    - map: phpmyadmin.loc
+      to: /home/vagrant/projects/phpmyadmin
+      
+    - map: phpsenbox.loc
+      to: /home/vagrant/projects/phpsenbox/
+      php: "5.6"
+
+databases:
+    - homestead
+    - shiva
+    - shiva_prod
+    - eurorepar
+    - eurorepar_china
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp
+
+# blackfire:
+#     - id: foo
+#       token: bar
+#       client-id: foo
+#       client-token: bar
+
+# zray:
+#  If you've already freely registered Z-Ray, you can place the token here.
+#     - email: foo@bar.com
+#       token: foo
+#  Don't forget to ensure that you have 'zray: "true"' for your site.
