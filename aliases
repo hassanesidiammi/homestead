@@ -24,10 +24,10 @@ alias yrwp="yarn run watch-poll"
 alias yrh="yarn run hot"
 alias yrp="yarn run production"
 
-alias sf="sudo -u vagrant php bin/console"
+alias sf="sudo -u vagrant php7.0 bin/console"
 alias sf-chown='mkdir -p /tmp/var && sudo chown -R vagrant:vagrant * /tmp/var && sudo chmod 777 -R /tmp/var'
 alias sf-cc="sf-chown && sf cache:clear && sf-chown"
-alias sf-assets='sf-chown && sf assetic:dump && sf assets:install && sf assetic:dump && sf-chown'
+alias sf-assets='sf-cc && sf assets:install && sf assetic:dump && sf-chown'
 
 alias sf2='sudo -u vagrant php5.6 app/console'
 alias sf2-chown='sudo chown -R vagrant:vagrant * /tmp/var'
@@ -36,6 +36,10 @@ alias sf2-assets='sf2 assetic:dump && sf2-chown'
 
 function artisan() {
     php artisan "$@"
+}
+
+function doctrine() {
+    sudo -u vagrant php7.0 bin/console doctrine:"$@"
 }
 
 function dusk() {

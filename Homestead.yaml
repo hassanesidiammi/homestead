@@ -1,7 +1,7 @@
 ---
 ip: "192.168.10.10"
 memory: 6144
-cpus: 1
+cpus: 2
 provider: virtualbox
 
 authorize: ~/.ssh/id_rsa.pub
@@ -43,12 +43,16 @@ sites:
       to: /home/vagrant/projects/phpsenbox/
       php: "5.6"
 
+    - map: www.drupal.loc
+      to: /home/vagrant/projects/drupal
+      # type: "drupal"
+
 databases:
-    - homestead
-    - shiva
-    - shiva_prod
     - eurorepar
     - eurorepar_china
+    - drupal
+    - shiva
+    - shiva_prod
 
 # ports:
 #     - send: 50000
