@@ -22,7 +22,7 @@ sites:
       type: "symfony2"
 
     - map: shiva-prod.loc
-      to: /home/vagrant/projects/shivaprod/web
+      to: /home/vagrant/projects/shiva-prod/web
       php: "5.6"
       type: "symfony2"
 
@@ -43,14 +43,18 @@ sites:
       to: /home/vagrant/projects/phpsenbox/
       php: "5.6"
 
-    - map: www.drupal.loc
-      to: /home/vagrant/projects/drupal
+    - map: drupal.loc
+      to: /home/vagrant/projects/drupal/web
+
+    - map: mimoun.loc
+      to: /home/vagrant/projects/mimoun
       # type: "drupal"
 
 databases:
     - eurorepar
     - eurorepar_china
     - drupal
+    - mimoun
     - shiva
     - shiva_prod
 

@@ -86,10 +86,10 @@ sudo block2="$block2" su -p - -c 'echo $block2 >> /vagrant/infos.txt'
 mysql -uhomestead -psecret -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'root';"
 
 echo 'Fixing "ONLY_FULL_GROUP_BY"...';
-sudo echo "\n" >> /etc/mysql/my.cnf;
-sudo echo "[mysqld]"  >> /etc/mysql/my.cnf;
-sudo echo "sql_mode = \"STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION\""  >> /etc/mysql/my.cnf;
-
+sudo sh -c 'echo "\n" >> /etc/mysql/my.cnf;';
+sudo sh -c 'echo "[mysqld]"  >> /etc/mysql/my.cnf;';
+sudo sh -c 'echo "    sql_mode = \"STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION\""  >> /etc/mysql/my.cnf;';
+cat /etc/mysql/my.cnf
 mysql -uhomestead -psecret -e "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
 
 
