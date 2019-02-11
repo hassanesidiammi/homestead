@@ -54,30 +54,30 @@
 # ls -AlFh /var/lib/jenkins/ | grep config
 # sudo service jenkins restart
 
-# block='
-# server {
-    # listen 80;
-    # server_name jenkins.loc;
-    # location / {
-      # proxy_set_header        Host \$host:\$server_port;
-      # proxy_set_header        X-Real-IP \$remote_addr;
-      # proxy_set_header        X-Forwarded-For \$proxy_add_x_forwarded_for;
-      # proxy_set_header        X-Forwarded-Proto \$scheme;
-      # # Fix the "It appears that your reverse proxy set up is broken" error.
-      # proxy_pass          http://127.0.0.1:8080;
-      # proxy_read_timeout  90;
-      # proxy_redirect      http://127.0.0.1:8080 http://jenkins.loc;
-      # proxy_redirect      http:jenkins.loc:8080 http://jenkins.loc;
-    # }
-  # }
-# '
+block='
+server {
+    listen 80;
+    server_name mails.loc;
+    location / {
+      proxy_set_header        Host \$host:\$server_port;
+      proxy_set_header        X-Real-IP \$remote_addr;
+      proxy_set_header        X-Forwarded-For \$proxy_add_x_forwarded_for;
+      proxy_set_header        X-Forwarded-Proto \$scheme;
+      # Fix the "It appears that your reverse proxy set up is broken" error.
+      proxy_pass          http://127.0.0.1:8025;
+      proxy_read_timeout  90;
+      proxy_redirect      http://127.0.0.1:8025 http://mails.loc;
+      proxy_redirect      http:mails.loc:8025 http://mails.loc;
+    }
+  }
+'
 
-# sudo block="$block" su -p - -c 'echo "$block" >> /etc/nginx/sites-available/jenkins.loc'
-# ln -fs /etc/apache2/sites-available/jenkins.loc /etc/apache2/sites-enabled/jenkins.loc
-# sudo service nginx restart
+sudo block="$block" su -p - -c 'echo "$block" >> /etc/nginx/sites-available/mails.loc'
+sudo ln -fs /etc/nginx/sites-available/mails.loc /etc/nginx/sites-enabled/mails.loc
+sudo service nginx restart
 
-# block2="Jenkins server: ; http://jenkins.loc"
-# sudo block2="$block2" su -p - -c 'echo $block2 >> /vagrant/infos.txt'
+block2="Mailhog server: ; http://mails.loc"
+sudo block2="$block2" su -p - -c 'echo $block2 >> /vagrant/infos.txt'
 
 
 # echo ' Provisionig Complet !!! '
@@ -86,7 +86,12 @@
 mysql -uhomestead -psecret -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' IDENTIFIED BY 'root';"
 
 echo 'Fixing "ONLY_FULL_GROUP_BY"...';
+sudo sh -c 'echo "\n" >> /etc/mysql/my.cnf;';
+sudo sh -c 'echo "[mysqld]"  >> /etc/mysql/my.cnf;';
+sudo sh -c 'echo "    sql_mode = \"STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION\""  >> /etc/mysql/my.cnf;';
+cat /etc/mysql/my.cnf
 mysql -uhomestead -psecret -e "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
+
 
 # echo 'Importing Databases !'
 # sudo mysql shiva < /data/shiva/sql/backup_dump_mysql_2018-10-18_12_28.sql
@@ -94,10 +99,3 @@ mysql -uhomestead -psecret -e "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'O
 # sudo mysql eurorepar_china < /data/eurorepar/db_bkp/eurorepar_china_db_2018-09-20.sql
 # sudo mysql eurorepar < /data/eurorepar/db_bkp/eurorepar_prod_20170925_1000.sql
 
-
-
-sudo apt-get update
-sudo apt-get install ruby-dev
-sudo gem install mailcatcher
-
-mailcatcher --foreground --http-ip=192.168.10.10

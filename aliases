@@ -14,7 +14,7 @@ alias xon='sudo phpenmod -s cli xdebug'
 
 alias nrd="npm run dev"
 alias nrw="npm run watch"
-alias nrwp="npm run watch-poll"
+alias nrww="npm run watch-poll"
 alias nrh="npm run hot"
 alias nrp="npm run production"
 
@@ -24,10 +24,10 @@ alias yrwp="yarn run watch-poll"
 alias yrh="yarn run hot"
 alias yrp="yarn run production"
 
-alias sf="sudo -u vagrant php bin/console"
-alias sf-chown='mkdir -p /tmp/var && sudo chown -R vagrant:vagrant . /tmp/var && sudo chmod 777 -R /tmp/var'
+alias sf="sudo -u vagrant php7.0 bin/console"
+alias sf-chown='mkdir -p /tmp/var && sudo chown -R vagrant:vagrant * /tmp/var && sudo chmod 777 -R /tmp/var'
 alias sf-cc="sf-chown && sf cache:clear && sf-chown"
-alias sf-assets='sf-chown && sf assetic:dump && sf assets:install && sf assetic:dump && sf-chown'
+alias sf-assets='sf-cc && sf assets:install && sf assetic:dump && sf-chown'
 
 alias sf2='sudo -u vagrant php5.6 app/console'
 alias sf2-chown='sudo chown -R vagrant:vagrant * /tmp/var'
@@ -38,6 +38,10 @@ function artisan() {
     php artisan "$@"
 }
 
+function doctrine() {
+    sudo -u vagrant php7.0 bin/console doctrine:"$@"
+}
+
 function dusk() {
     pids=$(pidof /usr/bin/Xvfb)
 
@@ -46,6 +50,18 @@ function dusk() {
     fi
 
     php artisan dusk "$@"
+}
+
+function php56() {
+    sudo update-alternatives --set php /usr/bin/php5.6
+    sudo update-alternatives --set php-config /usr/bin/php-config5.6
+    sudo update-alternatives --set phpize /usr/bin/phpize5.6
+}
+
+function php70() {
+    sudo update-alternatives --set php /usr/bin/php7.0
+    sudo update-alternatives --set php-config /usr/bin/php-config7.0
+    sudo update-alternatives --set phpize /usr/bin/phpize7.0
 }
 
 function php71() {
@@ -230,9 +246,9 @@ function dbexport() {
         HUMAN_READABLE_SIZE=$(numfmt --to=iec-i --suffix=B --format="%.3f" $ADJUSTED_SIZE)
 
         echo "Estimated uncompressed size: $HUMAN_READABLE_SIZE"
-        mysqldump -uhomestead -psecret --all-databases --skip-lock-tables --routines 2>/dev/null | pv  --size=$ADJUSTED_SIZE | gzip > "$FILE"
+        mysqldump -uhomestead -psecret --all-databases --skip-lock-tables 2>/dev/null | pv  --size=$ADJUSTED_SIZE | gzip > "$FILE"
     else
-        mysqldump -uhomestead -psecret --all-databases --skip-lock-tables --routines 2>/dev/null | gzip > "$FILE"
+        mysqldump -uhomestead -psecret --all-databases --skip-lock-tables 2>/dev/null | gzip > "$FILE"
     fi
 
     echo "Done."
@@ -271,16 +287,4 @@ function xphp() {
         "$@"
 
     if ! $XDEBUG_ENABLED; then xoff; fi
-}
-
-function update-socket-wrench() {
-    cd /var/www/socket-wrench
-    git pull origin release
-    composer install
-    php artisan migrate --force
-}
-
-function seed-socket-wrench() {
-    cd /var/www/socket-wrench
-    php artisan db:seed
 }

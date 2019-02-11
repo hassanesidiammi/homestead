@@ -1,7 +1,7 @@
 ---
 ip: "192.168.10.10"
 memory: 6144
-cpus: 1
+cpus: 2
 provider: virtualbox
 
 authorize: ~/.ssh/id_rsa.pub
@@ -22,27 +22,41 @@ sites:
       type: "symfony2"
 
     - map: shiva-prod.loc
-      to: /home/vagrant/projects/shivaprod/web
+      to: /home/vagrant/projects/shiva-prod/web
       php: "5.6"
       type: "symfony2"
 
     - map: www.eurorepar.loc
       to: /home/vagrant/projects/eurorepar/web
       type: "symfony2"
+      php: "7.0"
 
     - map: www.eurorepar-china.loc
       to: /home/vagrant/projects/eurorepar_china/web
       type: "symfony2"
+      php: "7.0"
 
     - map: phpmyadmin.loc
       to: /home/vagrant/projects/phpmyadmin
+      
+    - map: phpsenbox.loc
+      to: /home/vagrant/projects/phpsenbox/
+      php: "5.6"
+
+    - map: drupal.loc
+      to: /home/vagrant/projects/drupal/web
+
+    - map: mimoun.loc
+      to: /home/vagrant/projects/mimoun
+      # type: "drupal"
 
 databases:
-    - homestead
-    - shiva
-    - shiva_prod
     - eurorepar
     - eurorepar_china
+    - drupal
+    - mimoun
+    - shiva
+    - shiva_prod
 
 # ports:
 #     - send: 50000

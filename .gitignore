@@ -1,10 +1,10 @@
 /vendor
 /.vagrant
 phpunit.xml
-/Homestead.yaml
+#/Homestead.yaml
 /Homestead.json
-/after.sh
-/aliases
+#/after.sh
+#/aliases
 /mysqldump.sql.gz
 /mysql_backup
 /postgres_backup
