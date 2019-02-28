@@ -14,7 +14,10 @@
 # sudo apt-add-repository "deb https://pkg.jenkins.io/debian-stable binary/"
 
 
-# sudo apt-get update
+sudo apt-get update
+sudo apt-get install -y php5.6-fpm php7.0-fpm php5.6-xml php5.6-mbstring php5.6-mysql php5.6-sqlite \
+          php7.3-xml \
+		  php7.2-xml php7.2-mbstring php7.2-mysql php7.2-sqlite
 # sudo apt-get -y remove --purge openjdk*
 # sudo apt autoremove -y
 # sudo apt install -y openjdk-8-jdk-headless
@@ -92,9 +95,10 @@ sudo sh -c 'echo "    sql_mode = \"STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_D
 cat /etc/mysql/my.cnf
 mysql -uhomestead -psecret -e "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
 
+echo 'Importing Databases !'
+pv /data/shiva/backup_dump_mysql_2019-02-11_06_05.sql.gz | gunzip | mysql shiva
 
-# echo 'Importing Databases !'
-# sudo mysql shiva < /data/shiva/sql/backup_dump_mysql_2018-10-18_12_28.sql
+
 # sudo mysql shiva_prod < /data/shiva/sql/backup_dump_mysql_2018-10-18_12_28.sql
 # sudo mysql eurorepar_china < /data/eurorepar/db_bkp/eurorepar_china_db_2018-09-20.sql
 # sudo mysql eurorepar < /data/eurorepar/db_bkp/eurorepar_prod_20170925_1000.sql

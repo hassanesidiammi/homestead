@@ -29,12 +29,12 @@ sites:
     - map: www.eurorepar.loc
       to: /home/vagrant/projects/eurorepar/web
       type: "symfony2"
-      php: "7.0"
+      php: "7.2"
 
     - map: www.eurorepar-china.loc
       to: /home/vagrant/projects/eurorepar_china/web
       type: "symfony2"
-      php: "7.0"
+      php: "7.2"
 
     - map: phpmyadmin.loc
       to: /home/vagrant/projects/phpmyadmin

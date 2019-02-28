@@ -8,3 +8,6 @@ Mailhog server: ; http://mails.loc
 Mailhog server: ; http://mails.loc
 Mailhog server: ; http://mails.loc
 Mailhog server: ; http://mails.loc
+Mailhog server: ; http://mails.loc
+Mailhog server: ; http://mails.loc
+Mailhog server: ; http://mails.loc
