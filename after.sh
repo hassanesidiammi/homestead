@@ -15,9 +15,20 @@
 
 
 sudo apt-get update
-sudo apt-get install -y php5.6-fpm php7.0-fpm php5.6-xml php5.6-mbstring php5.6-mysql php5.6-sqlite \
+sudo apt-get install -y php5.6-fpm php7.0-fpm \
+		  php5.6-curl php5.6-xml php5.6-mbstring php5.6-mysql php5.6-sqlite \
           php7.3-xml \
-		  php7.2-xml php7.2-mbstring php7.2-mysql php7.2-sqlite
+		  php7.2-xml php7.2-mbstring php7.2-mysql php7.2-sqlite \
+		  php7.0-xml php7.0-mbstring php7.0-mysql php7.0-sqlite
+
+cd /home/vagrant && curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+export NVM_DIR="$HOME/.nvm"
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+cd /home/vagrant && nvm install 5.10.1 && nvm use 5.10.1
+echo "Install -g bower"
+npm install -g bower
+
+
 # sudo apt-get -y remove --purge openjdk*
 # sudo apt autoremove -y
 # sudo apt install -y openjdk-8-jdk-headless
@@ -91,14 +102,11 @@ mysql -uhomestead -psecret -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost'
 echo 'Fixing "ONLY_FULL_GROUP_BY"...';
 sudo sh -c 'echo "\n" >> /etc/mysql/my.cnf;';
 sudo sh -c 'echo "[mysqld]"  >> /etc/mysql/my.cnf;';
-sudo sh -c 'echo "    sql_mode = \"STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION\""  >> /etc/mysql/my.cnf;';
+sudo sh -c 'echo "    sql_mode = \"STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION\""  >> /etc/mysql/my.cnf;';
 cat /etc/mysql/my.cnf
 mysql -uhomestead -psecret -e "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));"
 
-echo 'Importing Databases !'
-pv /data/shiva/backup_dump_mysql_2019-02-11_06_05.sql.gz | gunzip | mysql shiva
-
-
+# echo 'Importing Databases !'
 # sudo mysql shiva_prod < /data/shiva/sql/backup_dump_mysql_2018-10-18_12_28.sql
 # sudo mysql eurorepar_china < /data/eurorepar/db_bkp/eurorepar_china_db_2018-09-20.sql
 # sudo mysql eurorepar < /data/eurorepar/db_bkp/eurorepar_prod_20170925_1000.sql

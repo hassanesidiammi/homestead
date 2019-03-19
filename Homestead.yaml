@@ -26,6 +26,19 @@ sites:
       php: "5.6"
       type: "symfony2"
 
+    - map: ingenico.loc
+      to: /home/vagrant/projects/ingenico/
+      php: "7.1"
+
+    - map: ingenico-back.loc
+      to: /home/vagrant/projects/ingenico/back/web
+      php: "7.1"
+      type: "symfony2"
+
+    - map: ingenico-front.loc
+      to: /home/vagrant/projects/ingenico/front/dist
+      php: "7.1"
+
     - map: www.eurorepar.loc
       to: /home/vagrant/projects/eurorepar/web
       type: "symfony2"
@@ -57,6 +70,9 @@ databases:
     - mimoun
     - shiva
     - shiva_prod
+    - ingenico
+
+backup: true
 
 # ports:
 #     - send: 50000

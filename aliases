@@ -30,8 +30,8 @@ alias sf-cc="sf-chown && sf cache:clear && sf-chown"
 alias sf-assets='sf-cc && sf assets:install && sf assetic:dump && sf-chown'
 
 alias sf2='sudo -u vagrant php5.6 app/console'
-alias sf2-chown='sudo chown -R vagrant:vagrant * /tmp/var'
-alias sf2-cc='sudo chown -R vagrant:vagrant . && sf2 cache:clear && sf2-chown'
+alias sf2-chown='sudo chown -R vagrant:vagrant . /tmp/var && sudo chmod -R 777 /tmp/var'
+alias sf2-cc='sf2-chown && sf2 cache:clear && sf2-chown'
 alias sf2-assets='sf2 assetic:dump && sf2-chown'
 
 function artisan() {
